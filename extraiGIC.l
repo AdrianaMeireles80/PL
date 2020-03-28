@@ -4,7 +4,8 @@
 
 %}
 
-%x gram 
+%x gram
+%option noyywrap 
 
 %%
 
@@ -19,4 +20,12 @@
 <gram>\{.+\} ;
 
 .+ ;
+
+%%
+
+int main(){
+	yylex();
+	return 0;
+}
+
 
