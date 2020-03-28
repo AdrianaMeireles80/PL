@@ -1,14 +1,12 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
 %}
 
 %x gram
 %option noyywrap 
 
 %%
-
 	BEGIN 0;
 	
 [ \t\n\r] ;
@@ -17,7 +15,7 @@
 
 <gram>\%\% BEGIN 0;
 
-<gram>\{.+\} ;
+<gram>\{.*\} ;
 
 .+ ;
 
