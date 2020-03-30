@@ -2,6 +2,7 @@
 
 ## How to Compile ?
 `extraiGIC.l`
+
 flex extraiGIC.l
 
 gcc -o extra.exe lex.yy.c -ll
