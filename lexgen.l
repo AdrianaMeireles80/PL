@@ -9,6 +9,7 @@ int ifd;
 int ofd;
 char **tokens;
 int ntokens=0;
+int ntokensmax = 1;
 int i;
 void criarFicheiro();
 
@@ -26,18 +27,43 @@ void criarFicheiro();
 
 \%token BEGIN tok;
 
-
 <tok>\n BEGIN 0;
 
 <tok>\ ; 
 
-<tok>[^ \n]+ {tokens = malloc(yyleng*sizeof(char)); tokens[ntokens] = strdup(yytext); ntokens++; printf("\nTokens: %s\n",yytext);}
+<tok>[^ \n]+ {
+				if(ntokens == 0){
+					tokens = malloc(ntokensmax*sizeof(char*));
+				}
 
-\%\% {BEGIN gen ; printf("%%\n"); }
+				if(ntokens == ntokensmax){
+					char** aux = malloc(ntokensmax*sizeof(char*));
+					
+					for(i = 0; i < ntokensmax; i++)
+						aux[i] = strdup(tokens[i]);
 
+					free(tokens);
+					ntokensmax += ntokensmax;
 
+					tokens = malloc(ntokensmax*sizeof(char*));
 
-<gen>\%\% {BEGIN 0;  printf("%%\n"); }
+					for(i = 0; i < ntokens; i++)
+						tokens[i] = strdup(aux[i]);
+
+					free(aux);
+				}
+
+				tokens[ntokens] = malloc(yyleng*sizeof(char));
+				tokens[ntokens] = strdup(yytext);
+				ntokens++;
+				printf("\nTokens: %s\n",yytext);
+			}
+
+\%\% {BEGIN gen ; printf("\n%s\n", "%%") ;}
+
+<gen>\%\% {BEGIN 0; printf("\n%s\n", "%%") ; }
+
+<gen>\{.*\} ;
 
 <<EOF>> { criarFicheiro();
           return 0;   
