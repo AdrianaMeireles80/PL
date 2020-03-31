@@ -56,7 +56,7 @@ void criarFicheiro();
 				tokens[ntokens] = malloc(yyleng*sizeof(char));
 				tokens[ntokens] = strdup(yytext);
 				ntokens++;
-				//printf("\nTokens: %s\n",yytext);
+				printf("\nTokens: %s\n",yytext);
 			}
 
 \%\% BEGIN gen ;
@@ -67,6 +67,8 @@ void criarFicheiro();
 
 <gen>.+ ; //MUDA AQUI PA FAZERES A CENA DOS ' '
 
+<*>.|\n;
+
 <<EOF>> { criarFicheiro();
           return 0;   
         }
@@ -76,11 +78,12 @@ void criarFicheiro();
 void criarFicheiro(){
 
 	int i;
-	//printf("\n%s\n", "%%") ;
+    int maxtokens = ntokens;
+	printf("\n%s\n", "%%") ;
 
 	printf("\nNUMERO TOKENS: %d\n",ntokens);
 
-	for(i=0; i <= ntokens+1; i++){
+	for(i=0; i < maxtokens; i++){
 
         printf("\nFIXME { return  %s;}\n",tokens[i]);
         ntokens--;
