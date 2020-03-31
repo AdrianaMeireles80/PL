@@ -15,6 +15,7 @@ int nterminais =0;
 int nterminaismax = 1;
 int i;
 void criarFicheiro();
+int eliminarep(char **);
 
 %}
 
@@ -104,33 +105,55 @@ void criarFicheiro();
 
 %%
 
+int eliminarep(char ** a){
+	int i, j, k;
+	int tam = nterminais;
+
+	 for( i = 0; i < tam; i++ )
+	 {
+			 for( j = i + 1; j < tam; )
+			 {
+					 if(	strcmp(terminais[j],terminais[i]) == 0 )
+					 {
+							 for( k = j; k < tam; k++ )
+									 terminais[k] = terminais[k + 1];
+
+							 tam--;
+					 }
+					 else
+							 j++;
+			 }
+	 }
+	 return tam;
+
+}
+
+
+
+
 
 void criarFicheiro(){
-
-
-int i;
+	int tam = eliminarep(terminais);
+	int i;
 	int maxtokens = ntokens;
-printf("\n%s\n", "%%") ;
+	printf("\n%s\n", "%%") ;
 
-printf("\nNUMERO TOKENS: %d\n",ntokens);
+	//printf("\nNUMERO TOKENS: %d\n",ntokens);
 
-for(i=0; i < maxtokens; i++){
+	for(i=0; i < maxtokens; i++){
 
 			printf("FIXME { return	%s;}\n",tokens[i]);
 			ntokens--;
 
- }
+ 		}
 
 	 printf("[");
-	 for(i=0; i<nterminais; i++){
+	 for(i=0; i<tam; i++){
 
 				printf("%s", terminais[i]);
 
 	 }
-
-	 printf("] { return	yytext[0];}");
-
-
+	 printf("] { return yytext[0];}");
 
    printf("\n%s\n", "%%") ;
 }
