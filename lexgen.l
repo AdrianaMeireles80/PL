@@ -68,7 +68,7 @@ int eliminarep(char **);
 
 <gen>\{.*\} ;
 
-<gen>\'[^a-zA-Z0-9]\' {
+<gen>'[^a-zA-Z0-9]' {
 				yytext[yyleng-1]='\0';
 				if(nterminais == 0){
 					terminais = malloc(nterminaismax*sizeof(char*));
@@ -95,9 +95,9 @@ int eliminarep(char **);
 
 				terminais[nterminais] = strdup(yytext+1);
 				nterminais++;
-			}    ;
+			}    
 
-<*>.|\n;
+<*>.|\t|\n|\r;
 
 <<EOF>> { criarFicheiro();
           return 0;
@@ -124,28 +124,20 @@ int eliminarep(char ** a){
 							 j++;
 			 }
 	 }
+
 	 return tam;
-
 }
-
-
-
-
 
 void criarFicheiro(){
 	int tam = eliminarep(terminais);
 	int i;
-	int maxtokens = ntokens;
+
 	printf("\n%s\n", "%%") ;
 
-	//printf("\nNUMERO TOKENS: %d\n",ntokens);
-
-	for(i=0; i < maxtokens; i++){
+	for(i=0; i < ntokens; i++){
 
 			printf("FIXME { return	%s;}\n",tokens[i]);
-			ntokens--;
-
- 		}
+ 	}
 
 	 printf("[");
 	 for(i=0; i<tam; i++){
