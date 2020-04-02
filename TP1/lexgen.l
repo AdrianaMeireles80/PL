@@ -16,6 +16,7 @@ int nterminaismax = 1;
 int i;
 void criarFicheiro();
 int eliminarep(char **);
+void alocaMem();
 
 %}
 
@@ -41,20 +42,7 @@ int eliminarep(char **);
 				}
 
 				if(ntokens == ntokensmax){
-					char** aux = malloc(ntokensmax*sizeof(char*));
-
-					for(i = 0; i < ntokensmax; i++)
-						aux[i] = strdup(tokens[i]);
-
-					free(tokens);
-					ntokensmax += ntokensmax;
-
-					tokens = malloc(ntokensmax*sizeof(char*));
-
-					for(i = 0; i < ntokens; i++)
-						tokens[i] = strdup(aux[i]);
-
-					free(aux);
+					alocaMem(tokens,ntokens,ntokensmax);
 				}
 
 				tokens[ntokens] = malloc(yyleng*sizeof(char));
@@ -75,20 +63,8 @@ int eliminarep(char **);
 				}
 
 				if(nterminais == nterminaismax){
-					char** aux = malloc(nterminaismax*sizeof(char*));
-
-					for(i = 0; i < nterminaismax; i++)
-						aux[i] = strdup(terminais[i]);
-
-					free(terminais);
-					nterminaismax += nterminaismax;
-
-					terminais = malloc(nterminaismax*sizeof(char*));
-
-					for(i = 0; i < nterminais; i++)
-						terminais[i] = strdup(aux[i]);
-
-					free(aux);
+					
+					alocaMem(terminais,nterminais,nterminaismax);
 				}
 
 				terminais[nterminais] = malloc(yyleng*sizeof(char));
@@ -104,6 +80,24 @@ int eliminarep(char **);
         }
 
 %%
+
+void alocaMem(char **v,int num,int max){
+
+	char** aux = malloc(max*sizeof(char*));
+
+					for(i = 0; i < max; i++)
+						aux[i] = strdup(v[i]);
+
+					free(v);
+					max += max;
+
+					v = malloc(max*sizeof(char*));
+
+					for(i = 0; i < num; i++)
+						v[i] = strdup(aux[i]);
+
+					free(aux);
+}
 
 int eliminarep(char ** a){
 	int i, j, k;
