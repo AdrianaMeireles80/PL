@@ -56,14 +56,14 @@ void alocaMem();
 
 <gen>\{.*\} ;
 
-<gen>'[^a-zA-Z0-9]' {
+<gen>'[^\']*\' {
 				yytext[yyleng-1]='\0';
 				if(nterminais == 0){
 					terminais = malloc(nterminaismax*sizeof(char*));
 				}
 
 				if(nterminais == nterminaismax){
-					
+
 					alocaMem(terminais,nterminais,nterminaismax);
 				}
 
@@ -71,7 +71,7 @@ void alocaMem();
 
 				terminais[nterminais] = strdup(yytext+1);
 				nterminais++;
-			}    
+			}
 
 <*>.|\t|\n|\r;
 
