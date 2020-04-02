@@ -56,7 +56,7 @@ void alocaMem();
 
 <gen>\{.*\} ;
 
-<gen>'[^\']*\' {
+<gen>'.+' {
 				yytext[yyleng-1]='\0';
 				if(nterminais == 0){
 					terminais = malloc(nterminaismax*sizeof(char*));
