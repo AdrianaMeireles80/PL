@@ -10,5 +10,6 @@ lex.yy.c : lexgen.l
 clean:
 
 	rm -f lex.yy.c
-	rm -r gen.exe
-	rm -r output.txt
+	rm -f gen.exe
+	rm -f output.txt
+	rm -f lex.yy.o
