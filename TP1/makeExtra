@@ -11,4 +11,4 @@ clean:
 
 	rm -f lex.yy.c
 	rm -f extra.exe
-	rm -f lex.xx.o
+	rm -f lex.yy.o
