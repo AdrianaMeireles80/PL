@@ -1,0 +1,13 @@
+extra.exe: lex.yy.o
+	gcc -o extra.exe lex.yy.o -ll
+
+lex.yy.o : lex.yy.c 
+	gcc -c lex.yy.c
+
+lex.yy.c : extraiGIC.l
+	flex extraiGIC.l
+
+clean:
+
+	rm -f lex.yy.c
+	rm -r extra.exe
