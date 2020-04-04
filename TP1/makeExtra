@@ -10,4 +10,5 @@ lex.yy.c : extraiGIC.l
 clean:
 
 	rm -f lex.yy.c
-	rm -r extra.exe
+	rm -f extra.exe
+	rm -f lex.xx.o
