@@ -9,10 +9,13 @@ lexgen: lexgen.l
 
 
 clean-extraiGIC:
-						rm extraiGIC
-						rm lex.yy.c
+						rm -f extraiGIC
+						rm -f lex.yy.c
+						rm -f gram.txt
+						rm -f extraiGIC.exe
 
 clean-lexgen:
-						rm lexgen
-						rm lex.yy.c
-						rm output
+						rm -f lexgen
+						rm -f lex.yy.c
+						rm -f output.l
+						rm -f lexgen.exe
