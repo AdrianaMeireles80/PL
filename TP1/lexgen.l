@@ -152,7 +152,7 @@ int main(int argc,char *argv[]){
 	}
 
 	ifd=open(argv[1],O_RDONLY);
-    ofd = open("output.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
+    ofd = open("output.l", O_CREAT | O_WRONLY | O_TRUNC, 0666);
 
 	int res1 = dup2(ifd, STDIN_FILENO);
 	int res2 = dup2(ofd, STDOUT_FILENO);
