@@ -1,10 +1,10 @@
 %{
-
 #include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+
 int ifd;
 int ofd;
 char **tokens;
@@ -17,7 +17,6 @@ int i;
 void criarFicheiro();
 int eliminarep(char **);
 void alocaMem();
-
 %}
 
 %x gen tok
@@ -26,58 +25,58 @@ void alocaMem();
 
 %%
 
-	BEGIN 0;
+				BEGIN 0;
 
-[ \t\n\r] ;
+[ \t\n\r] 		;
 
-\%token BEGIN tok;
+\%token 		BEGIN tok;
 
-<tok>\n BEGIN 0;
+<tok>\n 		BEGIN 0;
 
-<tok>\ ;
+<tok>\ 			;
 
-<tok>[^ \n]+ {
-				if(ntokens == 0){
-					tokens = malloc(ntokensmax*sizeof(char*));
+<tok>[^ \n]+ 	{
+					if(ntokens == 0){
+						tokens = malloc(ntokensmax*sizeof(char*));
+					}
+
+					if(ntokens == ntokensmax){
+						alocaMem(tokens,ntokens,ntokensmax);
+					}
+
+					tokens[ntokens] = malloc(yyleng*sizeof(char));
+					tokens[ntokens] = strdup(yytext);
+					ntokens++;
 				}
 
-				if(ntokens == ntokensmax){
-					alocaMem(tokens,ntokens,ntokensmax);
-				}
+\%\% 			BEGIN gen;
 
-				tokens[ntokens] = malloc(yyleng*sizeof(char));
-				tokens[ntokens] = strdup(yytext);
-				ntokens++;
-			}
+<gen>\%\% 		BEGIN 0;
 
-\%\% BEGIN gen ;
+<gen>\{.*\} 	;
 
-<gen>\%\% BEGIN 0;
+<gen>'[^ ]+' 	{
+					yytext[yyleng-1]='\0';
+					if(nterminais == 0){
+						terminais = malloc(nterminaismax*sizeof(char*));
+					}
 
-<gen>\{.*\} ;
+					if(nterminais == nterminaismax){
+						alocaMem(terminais,nterminais,nterminaismax);
+					}
 
-<gen>'[^ ]+' {
-				yytext[yyleng-1]='\0';
-				if(nterminais == 0){
-					terminais = malloc(nterminaismax*sizeof(char*));
-				}
+					terminais[nterminais] = malloc(yyleng*sizeof(char));
 
-				if(nterminais == nterminaismax){
+					terminais[nterminais] = strdup(yytext+1);
+					nterminais++;
+				}    
 
-					alocaMem(terminais,nterminais,nterminaismax);
-				}
+<*>.|\t|\n|\r 	;
 
-				terminais[nterminais] = malloc(yyleng*sizeof(char));
-
-				terminais[nterminais] = strdup(yytext+1);
-				nterminais++;
-			}
-
-<*>.|\t|\n|\r;
-
-<<EOF>> { criarFicheiro();
-          return 0;
-        }
+<<EOF>> 		{
+					criarFicheiro();
+          			return 0;
+        		}
 
 %%
 
@@ -139,7 +138,7 @@ void criarFicheiro(){
 				printf("%s", terminais[i]);
 
 	 }
-	 printf("] { return yytext[0];}");
+	 printf("] { return  yytext[0];}");
 
    printf("\n%s\n", "%%") ;
 }

@@ -4,7 +4,8 @@
 #include<string.h>
 #include <unistd.h>   
 #include <fcntl.h>
-int fd;
+int ifd;
+int ofd;
 
 %}
 
@@ -13,35 +14,38 @@ int fd;
 
 %%
 
-	BEGIN 0;
+				BEGIN 0;
 	
-[ \t\n\r] ;
+[ \t\n\r] 		;
 
-\%\% BEGIN gram;
+\%\% 			BEGIN gram;
 
-<gram>\%\% BEGIN 0;
+<gram>\%\% 		BEGIN 0;
 
-<gram>\{.*\} ;
+<gram>'[^ ]+' 	printf("%s", yytext);
 
-.+ ;
+<gram>\{.*\} 	;
+
+<gram>[^{'%]+   printf("%s", yytext);
+
+<*>.|\n|\r|\t	;
 
 %%
 
 int main(int argc,char *argv[]){
 
 	if ( argc != 2 ){
-
        printf ("Usage : ./ exe <ficheiro yacc> \n");
 	   return 0;
 	}
 
-	fd=open(argv[1],O_RDONLY); 
+	ifd = open(argv[1],O_RDONLY);
+	ofd = open("gram.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666); 
 
-	int res = dup2(fd, STDIN_FILENO);	
+	int res = dup2(ifd, STDIN_FILENO);
+	int res2 = dup2(ofd, STDOUT_FILENO);	
 
 	yylex();
 
 	return 0;
 }
-
-
