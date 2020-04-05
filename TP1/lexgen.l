@@ -80,6 +80,8 @@ void alocaMem();
 
 %%
 
+// Função responsável pela alocação de Memória de um vetor de strings dado o seu tamanho e o máximo inicial
+
 void alocaMem(char **v,int num,int max){
 
 	char** aux = malloc(max*sizeof(char*));
@@ -97,6 +99,8 @@ void alocaMem(char **v,int num,int max){
 
 					free(aux);
 }
+
+// Função responsável por eliminar os símbolos terminais repetidos dado o vetor de strings 
 
 int eliminarep(char ** a){
 	int i, j, k;
@@ -120,6 +124,8 @@ int eliminarep(char ** a){
 
 	 return tam;
 }
+
+// Função responsável pela estrutura do ficheiro output resultante da leitura dos vetores de strings dos tokens e símbolos terminais
 
 void criarFicheiro(){
 	int tam = eliminarep(terminais);

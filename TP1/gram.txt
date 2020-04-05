@@ -1,0 +1,23 @@
+AAAAAAA
+Listas : Lista Listas			AAAAAAA
+	   |
+	   ;
+
+Lista : '['AAAAAAA ']'AAAAAAA
+	  | '['AAAAAAA Elems ']'AAAAAAA
+	  ;
+
+Elems : Elem
+	  | Elems ','AAAAAAA Elems 		//mais eficiente do que Elem ','AAAAAAA Elems
+	  | Lista
+	  ;
+
+Elem  : INT
+	  | Intervalo
+	  ;
+
+Intervalo : INT DOISPONTOS INT
+          |INT LOL INT
+          |INT OLE INT
+		  ;
+
