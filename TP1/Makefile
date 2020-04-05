@@ -8,14 +8,10 @@ lexgen: lexgen.l
 				gcc -o lexgen.exe lex.yy.c -ll
 
 
-clean-extraiGIC:
-						rm -f extraiGIC
+clean:
+						rm -f extraiGIC.exe
 						rm -f lex.yy.c
 						rm -f gram.txt
-						rm -f extraiGIC.exe
-
-clean-lexgen:
-						rm -f lexgen
-						rm -f lex.yy.c
-						rm -f output.l
 						rm -f lexgen.exe
+						rm -f output.l
+						
