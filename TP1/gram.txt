@@ -1,8 +1,0 @@
-
-lista : MKLISTA '(' ids ')' 
-| NULA
-;
-ids : ID ',' ids 
-
-| ID 'a'{batatas}'b' 
-;
