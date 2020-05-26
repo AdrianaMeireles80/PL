@@ -22,7 +22,7 @@ int ofd;
 
 <gram>\%\% 		BEGIN 0;
 
-<gram>'[^ ]+' 	printf("%s", yytext);
+<gram>'[^ {]+' 	printf("%s", yytext);
 
 <gram>\{.*\} 	;
 

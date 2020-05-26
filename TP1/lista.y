@@ -16,7 +16,7 @@ Lista : '[' ']'
 	  ;
 
 Elems : Elem
-	  | Elems ',' Elems 		//mais eficiente do que Elem ',' Elems
+	  | Elems ',' Elems 		//mais eficiente do que Elem '!' Elems
 	  | Lista
 	  ;
 
