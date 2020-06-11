@@ -1,4 +1,5 @@
 __BEGIN__
+
 dispute:
  labour -                conflito (m) trabalhista
 dissolution              dissoluÃ§Ã£o (f)
@@ -13,6 +14,3 @@ distribution:
  normal -                distribuiÃ§Ã£o (f) normal
  physical - management   controle (m) da distribuiÃ§Ã£o fÃ­sica
 distributor              distribuidor (m), atacadista (m)
-diversification:         diversificaÃ§Ã£o (f)
- - strategy              estratÃ©gia (f) de diversificaÃ§Ã£o
- product -               diversificaÃ§Ã£o (f) de produtos

@@ -1,11 +1,12 @@
 %{
 #include "y.tab.h"
+ int flag = 0;
 %}
 %option noyywrap
 
 %x Base
 %x dicionario
-%x palavra
+%x PalPort
 %%
 [ \t\n\r] ;
 
@@ -13,26 +14,29 @@
                 return START; 
               }
 
-<dicionario>^[a-zA-Z]*: { BEGIN Base;  
-                          yylval.sbase = strdup(yytext) ; 
-                          return BASE; 
+<dicionario>^[a-zA-Z]*: { BEGIN Base; 
+                          yylval.sbase = strdup(yytext) ; flag =1;
+                          return BASE;
                         }
 
-<Base>^[ ]+ { yylval.spal = strdup(yytext) ; 
-              return PALING; }
-              
-<Base>^[a-zA-Z]*: { BEGIN Base;
-                    yylval.sbase = strdup(yytext) ; 
-                    return BASE;
-                  }
+<Base>^[a-zA-Z]+ { flag = 0; BEGIN PalPort; 
+                   yylval.spal = strdup(yytext) ; 
+                   return PALING;
+                 }
 
+<Base>^[ ]+.+[ ] { BEGIN PalPort; 
+                   yylval.spal = strdup(yytext) ; 
+                   return PALING;
+                 }
 
-
-<dicionario>^[a-zA-Z]*[ ]+ { BEGIN dicionario;  
+<dicionario>^[a-zA-Z]* { BEGIN PalPort; 
                          yylval.spal = strdup(yytext) ; 
                          return PALING;
                        }
-
+                       
+<PalPort>[^\n]+  {yylval.spal = strdup(yytext) ;  if (flag == 1 )  BEGIN Base  ; else  BEGIN dicionario; 
+                   return PALPORT; 
+                 }
 
 .                     {return ERRO;}
                     

@@ -16,9 +16,12 @@ int erroSem(char*);
 }
 %token ERRO  START 
 %token<spal> PALING 
+%token<spal> PALPORT
 %token<sbase> BASE
 %type<sbase> Base
 %type<spal> PalIng
+%type<spal> PalPort
+
 
 
 %%
@@ -32,12 +35,14 @@ ListaPalIng : ListaPalIng PalIng
             | Base   
             ;
 
-Base : BASE PalIng  
+Base : BASE PalIng  {printf("+base %s\n", $$);}
      ;
 
-PalIng : PALING  
+PalIng : PALING  PalPort {printf("EN %s\n", $$);}
        ;
 
+PalPort : PALPORT {printf("PT %s\n", $$);}
+        ;
 
 
 %%
