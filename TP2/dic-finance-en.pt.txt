@@ -1,0 +1,18 @@
+__BEGIN__
+dispute:
+ labour -                conflito (m) trabalhista
+dissolution              dissoluÃ§Ã£o (f)
+distribution:
+ - costs                 custos de distribuiÃ§Ã£o
+ - manager               gerente (m) de distribuiÃ§Ã£o 
+ - network               rede (f) de distribuiÃ§Ã£o
+ - planning              planejamento (m) de distribuiÃ§Ã£o
+ chain of -              cadeia (f) de distribuiÃ§Ã£o
+ channels of -           canais (mpl) de distribuiÃ§Ã£o
+ frequency -             distribuiÃ§Ã£o (f) por freqÃ¼Ãªncia
+ normal -                distribuiÃ§Ã£o (f) normal
+ physical - management   controle (m) da distribuiÃ§Ã£o fÃ­sica
+distributor              distribuidor (m), atacadista (m)
+diversification:         diversificaÃ§Ã£o (f)
+ - strategy              estratÃ©gia (f) de diversificaÃ§Ã£o
+ product -               diversificaÃ§Ã£o (f) de produtos
