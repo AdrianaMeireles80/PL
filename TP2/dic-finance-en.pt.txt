@@ -2,15 +2,15 @@ __BEGIN__
 
 dispute:
  labour -                conflito (m) trabalhista
-dissolution              dissoluÃ§Ã£o (f)
+dissolution              dissolução (f)
 distribution:
- - costs                 custos de distribuiÃ§Ã£o
- - manager               gerente (m) de distribuiÃ§Ã£o 
- - network               rede (f) de distribuiÃ§Ã£o
- - planning              planejamento (m) de distribuiÃ§Ã£o
- chain of -              cadeia (f) de distribuiÃ§Ã£o
- channels of -           canais (mpl) de distribuiÃ§Ã£o
- frequency -             distribuiÃ§Ã£o (f) por freqÃ¼Ãªncia
- normal -                distribuiÃ§Ã£o (f) normal
- physical - management   controle (m) da distribuiÃ§Ã£o fÃ­sica
+ - costs                 custos de distribuição
+ - manager               gerente (m) de distribuição
+ - network               rede (f) de distribuição
+ - planning              planejamento (m) de distribuição
+ chain of -              cadeia (f) de distribuição
+ channels of -           canais (mpl) de distribuição
+ frequency -             distribuição (f) por frequência
+ normal -                distribuição (f) normal
+ physical - management   controle (m) da distribuição física
 distributor              distribuidor (m), atacadista (m)

@@ -8,13 +8,15 @@
 %x dicionario
 %x PalPort
 %%
-[ \t\n\r] ;
+
+<*>[ \t\n\r] ;
 
 \_\_BEGIN\_\_ { BEGIN dicionario;
                 return START; 
               }
 
-<dicionario>^[a-zA-Z]*: { BEGIN Base; 
+<dicionario>^[a-zA-Z]*: { BEGIN Base;
+                          yytext[yyleng-1] = '\0';
                           yylval.sbase = strdup(yytext) ; flag =1;
                           return BASE;
                         }
@@ -32,11 +34,12 @@
 <dicionario>^[a-zA-Z]* { BEGIN PalPort; 
                          yylval.spal = strdup(yytext) ; 
                          return PALING;
+
                        }
                        
 <PalPort>[^\n]+  {yylval.spal = strdup(yytext) ;  if (flag == 1 )  BEGIN Base  ; else  BEGIN dicionario; 
                    return PALPORT; 
                  }
 
-.                     {return ERRO;}
+<*>.                     {return ERRO;}
                     

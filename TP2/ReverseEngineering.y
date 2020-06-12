@@ -14,10 +14,8 @@ int erroSem(char*);
     char* spal;
  
 }
-%token ERRO  START 
-%token<spal> PALING 
-%token<spal> PALPORT
-%token<sbase> BASE
+%token ERRO  START PALING PALPORT BASE
+
 %type<sbase> Base
 %type<spal> PalIng
 %type<spal> PalPort
