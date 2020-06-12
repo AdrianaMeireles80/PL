@@ -7,40 +7,43 @@ extern int yylineno;
 extern char *yytext;
 int yyerror();
 int erroSem(char*);
+int i=1;
+
 %}
 
 %union{
     char* sbase;
     char* spal;
- 
+
+
 }
+
 %token ERRO  START PALING PALPORT BASE
 
 %type<sbase> Base
-%type<spal> PalIng
-%type<spal> PalPort
+%type<spal>  Palvras PALPORT
 
 
 
 %%
 
-Dicionario : START  ListaPalIng 
+Dicionario : START  ListaPalavras
             ;
 
-ListaPalIng : ListaPalIng PalIng 
-            | ListaPalIng Base  
-            | PalIng    
-            | Base   
-            ;
+ListaPalavras : ListaPalavras Palvras {i=0;}
+              | ListaPalavras Base {i=1;}
+              | Palvras {i=0;}
+              | Base    {i=1;}
+              ;
 
-Base : BASE PalIng  {printf("+base %s\n", $$);}
+Base : BASE Palvras { printf("EN %s\n+base %s\n",  $2,$$);}
      ;
 
-PalIng : PALING  PalPort {printf("EN %s\n", $$);}
+Palvras : PALING  PALPORT { if(i==1) { printf("PT %s\n",$2 ); } else printf("EN %s\nPT %s\n",$$, $2 );}
        ;
 
-PalPort : PALPORT {printf("PT %s\n", $$);}
-        ;
+
+
 
 
 %%
