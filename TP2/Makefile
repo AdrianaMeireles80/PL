@@ -14,9 +14,5 @@ lex.yy.c : ReverseEngineering.l y.tab.h
 	flex ReverseEngineering.l
 
 clean:
-						rm -f ReverseEngineering
-						rm -f lex.yy.c
-						rm lex.yy.o
-						rm y.tab.h
-						rm y.tab.o
-						rm y.tab.c
+	rm -f ReverseEngineering lex.yy.c lex.yy.o y.tab.h y.tab.o y.tab.c
+						
