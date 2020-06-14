@@ -5,7 +5,7 @@
 #include <ctype.h>
 int flag = 0;
 int i, j;
-//char* basepal=NULL;
+
 void strrev (char* s);
 
 %}
@@ -29,8 +29,6 @@ void strrev (char* s);
                           BEGIN Base;
                           yylval.sbase = strdup(yytext);
                           yylval.sbase[yyleng - 1] = '\0';  
-                          //basepal = strdup(yylval.sbase);
-                          //printf("basepal %s\n: ",basepal);
                           flag =1;
                           
                           return BASE;
@@ -47,8 +45,7 @@ void strrev (char* s);
                   BEGIN Base;
                   yylval.sbase = strdup(yytext) ;
                   yylval.sbase[yyleng - 1] = '\0';
-                  //basepal = strdup(yylval.sbase);
-                  //printf("basepal %s\n: ",basepal);
+
                   return BASE;
                   }
 
@@ -97,15 +94,3 @@ void strrev (char* s);
 <*>.                  {return ERRO;}
 
 %%
-
-void strrev (char* s) { 
-  char c;
-  int i, j;
-  for (j = 0; s[j] != '\0'; j++) {
-    for (i = 0; s[i+1+j] != '\0'; i++) {
-      c = s[i+1];
-      s[i+1] = s[i];
-      s[i] = c;
-    }
-  }
-}
