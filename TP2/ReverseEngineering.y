@@ -7,8 +7,7 @@ extern int yylineno;
 extern char *yytext;
 int yyerror();
 int erroSem(char*);
-int i=1;
-
+char* aux;
 
 %}
 
@@ -20,8 +19,8 @@ int i=1;
 
 %token ERRO  START PALING PALPORT BASE 
 
-%type<sbase> Base BASE
-%type<spal>  Palavras PALPORT PALING
+%type<sbase> Base BASE Pota
+%type<spal>  Palavras PALPORT PALING PalPort PalIng ListaBase 
 
 
 
@@ -30,46 +29,36 @@ int i=1;
 Dicionario : START  ListaPalavras
            ;
 
-ListaPalavras : ListaPalavras Palavras {i=0;}
-              | ListaPalavras Base {i=1;}
-              | Palavras {i=0;}
-              | Base    {i=1;}
+ListaPalavras : ListaPalavras Palavras 
+              | ListaPalavras Base 
+              | Palavras 
+              | Base    
               ;
 
-Base : BASE Palavras {
-                  
-                    
-                    if(($2)[0] == '-')
-                        printf("EN %s %s\n+base %s\n", $1, ($2)+1, $1);
+Base :  Pota ListaBase  
+                             
 
-                    else if(($2)[strlen($2)-1] == '-'){
-                       
-                        ($2)[strlen($2)-1] = '\0';
-                        printf("EN %s %s\n+base %s\n", $2, $1, $1);
-                      }
-                    }
+ListaBase : ListaBase PalIng PalPort  { if(($2)[0] == '-')
+                                          printf("\nEN %s %s\n+base %s\nPT %s\n", $2,aux,aux, $3);
 
-     ; 
+                                        else if(($2)[strlen($2)-1] == '-'){
+                                          ($2)[strlen($2)-1] = '\0';
+                                          printf("\nEN %s %s\n+base %s\nPT %s\n", $2,aux,aux, $3);
+                                        }
+                                       }
+          |
+          ;
 
-Palavras : PALING  PALPORT {  char* aux;
-                              if(($1)[0] == '-')
-                                aux = strdup(($1)+1);
-
-                              else if(($1)[strlen($1)-1] == '-'){
-                                aux = strdup($1);
-                                aux[strlen(aux)-1] = '\0';
-                              }
-                              else
-                                aux = strdup($1);
-
-                              if(i == 1) { 
-                                printf("PT %s\n", $2);
-                              } 
-                              else 
-                                printf("EN %s\nPT %s\n\n", aux, $2);
-                            }
+Palavras :  PalIng  PalPort {printf("\nEN %s\nPT %s\n\n", $1, $2);}
          ;
 
+PalPort : PALPORT
+        ;
+
+PalIng :  PALING  
+       ;
+
+Pota : BASE { aux = strdup($1); };
 
 %%
 int main(){

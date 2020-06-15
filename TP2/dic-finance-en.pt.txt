@@ -1,16 +1,13 @@
 __BEGIN__
 
-dispute:
- labour -                conflito (m) trabalhista
-dissolution              dissolução (f)
-distribution:
- - costs                 custos de distribuição
- - manager               gerente (m) de distribuição
- - network               rede (f) de distribuição
- - planning              planejamento (m) de distribuição
- chain of -              cadeia (f) de distribuição
- channels of -           canais (mpl) de distribuição
- frequency -             distribuição (f) por frequência
- normal -                distribuição (f) normal
- physical - management   controle (m) da distribuição física
-distributor              distribuidor (m), atacadista (m)
+
+above par                         com Ã¡gio; acima da paridade
+acceleration clause               clÃ¡usula (f) de aceleraÃ§Ã£o
+access:
+ multi -                          acesso (m) mÃºltiplo
+ random -                         acesso (m) casual
+account:
+ bank -                           conta (f) bancÃ¡ria
+ joint -                          conta (f) conjunta
+accountability                    responsabilidade (f) sujeita a
+                                   prestaÃ§Ã£o de contas

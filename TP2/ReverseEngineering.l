@@ -72,12 +72,12 @@ void strrev (char* s);
 
                                           char* aux = malloc(sizeof(char)*yyleng);
                                           for(i = 0, j = 0; i < yyleng - 1; i++){
-                                              if(isalpha(yytext[i]) || yytext[i] == '-'){
+                                              if(isalpha(yytext[i]) || yytext[i] == '-' || yytext[i] == ' ' ){
                                                   aux[j++] = yytext[i];
                                               }
                                           }
                                           aux[j++] = '\0';
-                                          yylval.spal = strdup(aux);
+                                          yylval.spal = strdup(aux); 
 
                                           return PALING;
                                         }
