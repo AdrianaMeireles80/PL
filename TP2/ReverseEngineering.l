@@ -18,23 +18,25 @@ void strrev (char* s);
 
 <*>[ \t\n\r] ;
 
-[ \:\-,] {return yytext[0];}
+
 
 \_\_BEGIN\_\_ { 
                 BEGIN dicionario;
                 return START;
               }
 
-
+<dicionario>[:\-,] { return yytext[0];}
 <dicionario>^[a-zA-Z]* {  yylval.spal = strdup(yytext) ;
                           return PALING;
                        }
 
-<dicionario>^[ ]+[,?a-zA-Z]+ { yylval.spal = strdup(yytext) ; 
+
+
+<dicionario>^[ ]+[,?a-zA-Z]+ { yylval.spal = strdup(yytext) ; printf("asd %s\n",yylval.spal );
                                return PALING; 
                              }
 
-<dicionario>[a-zA-Z]* { yylval.spal = strdup(yytext) ; 
+<dicionario>[a-zA-Z]* { yylval.spal = strdup(yytext) ; printf("por (%s)\n",yylval.spal );
                     return PALPORT;
                   }
 

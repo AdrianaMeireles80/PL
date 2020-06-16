@@ -5,9 +5,9 @@
 extern int yylex();
 extern int yylineno;
 extern char *yytext;
+
 int yyerror();
 int erroSem(char*);
-char* aux;
 
 %}
 
@@ -44,16 +44,19 @@ Base : Ingles ':' Ingles {printf("+base \nPT " );}
 
      ;
 
-Portugues : PALPORT                             {$$= $1; printf("PT   %s\n",$1);}
-          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s\n",$1);}
-          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\n",$1);}
-          ;
+
 
 Ingles : PALING '-' Portugues          {$$= $1; printf("EN   %s\n",$1);}
        | '-' PALING Portugues           {$$= $2; printf("EN   %s\n",$2);}
        | PALING '-' PALING Portugues    {$$= $1; printf("EN   %s\n",$1);}
-       | PALING  Portugues              {$$= $1; printf("EN   %s\n",$1);}
+       | PALING ':' Portugues              {$$= $1; printf("EN   %s\n",$1);}
+       | PALING ':' Ingles
        ;
+
+Portugues : PALPORT                             {$$= $1; printf("PT   %s\n",$1);}
+          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s %s\n",$1, $3);}
+          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\n",$1);}
+          ;
 
 
 
