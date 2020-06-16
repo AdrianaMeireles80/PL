@@ -19,46 +19,43 @@ char* aux;
 
 %token ERRO  START PALING PALPORT BASE 
 
-%type<sbase> Base BASE Pota
-%type<spal>  Palavras PALPORT PALING PalPort PalIng ListaBase 
+%type<sbase> Base BASE 
+%type<spal>  Palavras PALPORT PALING Portugues Ingles  
 
 
 
 %%
 
-Dicionario : START  ListaPalavras
+Dicionario : START  ListaPalavras {printf("\n");}
            ;
 
-ListaPalavras : ListaPalavras Palavras 
-              | ListaPalavras Base 
-              | Palavras 
-              | Base    
+ListaPalavras : ListaPalavras Palavras {printf("\n");}
+              | ListaPalavras Base   {printf("ssss");}
+              | Palavras {printf("potas\n");}
+              | Base    {printf("aaaaa");}
               ;
 
-Base :  Pota ListaBase  
-                             
 
-ListaBase : ListaBase PalIng PalPort  { if(($2)[0] == '-')
-                                          printf("\nEN %s %s\n+base %s\nPT %s\n", $2,aux,aux, $3);
-
-                                        else if(($2)[strlen($2)-1] == '-'){
-                                          ($2)[strlen($2)-1] = '\0';
-                                          printf("\nEN %s %s\n+base %s\nPT %s\n", $2,aux,aux, $3);
-                                        }
-                                       }
-          |
-          ;
-
-Palavras :  PalIng  PalPort {printf("\nEN %s\nPT %s\n\n", $1, $2);}
+Palavras :  Ingles  Portugues {printf("asdfghn\n");}
          ;
 
-PalPort : PALPORT
-        ;
+Base : Ingles ':' Ingles {printf("+base \nPT " );}
+     | Ingles ':' Portugues {printf("+base \nPT " );}
 
-PalIng :  PALING  
+     ;
+
+Portugues : PALPORT                             {$$= $1; printf("PT   %s\n",$1);}
+          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s\n",$1);}
+          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\n",$1);}
+          ;
+
+Ingles : PALING '-' Portugues          {$$= $1; printf("EN   %s\n",$1);}
+       | '-' PALING Portugues           {$$= $2; printf("EN   %s\n",$2);}
+       | PALING '-' PALING Portugues    {$$= $1; printf("EN   %s\n",$1);}
+       | PALING  Portugues              {$$= $1; printf("EN   %s\n",$1);}
        ;
 
-Pota : BASE { aux = strdup($1); };
+
 
 %%
 int main(){
@@ -73,5 +70,5 @@ int erroSem(char *s){
 
 int yyerror(){
     printf("Erro Sintático ou Léxico na linha: %d, com o texto: %s\n", yylineno, yytext);
-    
+
 }
