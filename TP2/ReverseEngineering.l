@@ -13,6 +13,7 @@ void strrev (char* s);
 
 
 %x dicionario
+%x definicao
 
 %%
 
@@ -25,20 +26,25 @@ void strrev (char* s);
                 return START;
               }
 
-<dicionario>[:\-,] { return yytext[0];}
-<dicionario>^[a-zA-Z]* {  yylval.spal = strdup(yytext) ;
+<dicionario>[:\-] { return yytext[0];}
+
+
+<dicionario>^[a-zA-Z]+ {  yylval.spal = strdup(yytext) ;
                           return PALING;
                        }
 
 
 
-<dicionario>^[ ]+[,?a-zA-Z]+ { yylval.spal = strdup(yytext) ; printf("asd %s\n",yylval.spal );
+<dicionario>^[ ]+[,?a-zA-Z]+ { yylval.spal = strdup(yytext) ; 
                                return PALING; 
                              }
 
-<dicionario>[a-zA-Z]* { yylval.spal = strdup(yytext) ; 
-                    return PALPORT;
-                  }
+
+<dicionario>[a-zA-Z]+   { yylval.spal = strdup(yytext) ; 
+                        return PALPORT;
+                      }
+
+
 
 .                  {return ERRO;}
 

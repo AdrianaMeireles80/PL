@@ -8,6 +8,7 @@ extern char *yytext;
 
 int yyerror();
 int erroSem(char*);
+int i =0;
 
 %}
 
@@ -19,7 +20,6 @@ int erroSem(char*);
 
 %token ERRO  START PALING PALPORT BASE 
 
-%type<sbase> Base BASE 
 %type<spal>  Palavras PALPORT PALING Portugues Ingles  
 
 
@@ -36,25 +36,47 @@ ListaPalavras : ListaPalavras Palavras
               ;
 
 
-Palavras :  Ingles  Portugues
-         | Ingles ':' Ingles {printf("+base %s\nPT ",$1);}
-         | Ingles ':' Portugues {printf("+base %s\nEN",$1);}
+Palavras : Ingles  Portugues  {printf("\nEN %s\nPT %s\n", $1, $2);}
+         | Ingles ':' Ingles Portugues {
+                                    switch(i)
+                                    {
+                                        case 0 :
+                                        printf("\n1-EN %s %s\n+base %s\nPT %s\n",$3,$1,$1,$4);
+                                        break;
+
+                                        case 1 :
+                                        printf("\n2-EN %s %s\n+base %s\nPT %s\n",$1,$3,$1,$4);
+                                        break;
+                                        
+                                    }
+                                    }
+         | Ingles ':' Portugues Palavras {printf("\EN %s\nPT %s\n", $1, $3);
+                                        switch(i)
+                                        {
+                                            case 0 :
+                                            printf("EN %s %s\n +base %s\n PT %s\n", , , ,$3);
+                                            break;
+                                            
+                                            case 1 :
+                                            printf("EN %s %s\n +base %s\n PT %s\n", , , ,$3);
+                                        }
+                                          }
 
          ;
          
 
 
 
-Ingles : PALING '-' Portugues          {$$= $1; printf("EN   %s\n",$1);}
-       | '-' PALING Portugues           {$$= $2; printf("EN   %s\n",$2);}
-       | PALING '-' PALING Portugues    {$$= $1; printf("EN   %s\n",$1);}
-       | PALING                        {$$= $1; printf("EN   %s\n",$1);}
+Ingles : PALING '-'        {$$= $1; i=0; }
+       | '-' PALING        {$$= $2;  i=1;}
+       | PALING '-' PALING {$$= $1; i=2; }
+       | PALING            {$$= $1;i=0;}
        
        ;
 
-Portugues : PALPORT                             {$$= $1; printf("PT   %s\n",$1);}
-          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s\nPT %s\n",$1, $3);}
-          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\nPT   %s\nPT %s\n",$1, $3,$5);}
+Portugues : PALPORT                             {$$= $1; }
+          | PALPORT ',' PALPORT                 {$$= $1; }
+          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; }
           ;
 
 
