@@ -1,13 +1,8 @@
 __BEGIN__
 
 
-above par                         com Ã¡gio; acima da paridade
-acceleration clause               clÃ¡usula (f) de aceleraÃ§Ã£o
-access:
- multi -                          acesso (m) mÃºltiplo
- random -                         acesso (m) casual
-account:
- bank -                           conta (f) bancÃ¡ria
- joint -                          conta (f) conjunta
-accountability                    responsabilidade (f) sujeita a
-                                   prestaÃ§Ã£o de contas
+above                          com,dfgh,ola
+dfgh      fghj
+sdfgh    ghj
+ola: 
+ -boas                       tudo bem

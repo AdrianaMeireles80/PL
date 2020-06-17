@@ -29,35 +29,33 @@ int erroSem(char*);
 Dicionario : START  ListaPalavras {printf("\n");}
            ;
 
-ListaPalavras : ListaPalavras Palavras {printf("\n");}
-              | ListaPalavras Base   {printf("ssss");}
-              | Palavras {printf("potas\n");}
-              | Base    {printf("aaaaa");}
+ListaPalavras : ListaPalavras Palavras 
+
+              | Palavras 
+             
               ;
 
 
-Palavras :  Ingles  Portugues {printf("asdfghn\n");}
+Palavras :  Ingles  Portugues
+         | Ingles ':' Ingles {printf("+base %s\nPT ",$1);}
+         | Ingles ':' Portugues {printf("+base %s\nEN",$1);}
+
          ;
-
-Base : Ingles ':' Ingles {printf("+base \nPT " );}
-     | Ingles ':' Portugues {printf("+base \nPT " );}
-
-     ;
+         
 
 
 
 Ingles : PALING '-' Portugues          {$$= $1; printf("EN   %s\n",$1);}
        | '-' PALING Portugues           {$$= $2; printf("EN   %s\n",$2);}
        | PALING '-' PALING Portugues    {$$= $1; printf("EN   %s\n",$1);}
-       | PALING ':' Portugues              {$$= $1; printf("EN   %s\n",$1);}
-       | PALING ':' Ingles
+       | PALING                        {$$= $1; printf("EN   %s\n",$1);}
+       
        ;
 
 Portugues : PALPORT                             {$$= $1; printf("PT   %s\n",$1);}
-          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s %s\n",$1, $3);}
-          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\n",$1);}
+          | PALPORT ',' PALPORT                 {$$= $1; printf("PT   %s\nPT %s\n",$1, $3);}
+          | PALPORT ',' PALPORT ',' PALPORT     {$$= $1; printf("PT   %s\nPT   %s\nPT %s\n",$1, $3,$5);}
           ;
-
 
 
 %%

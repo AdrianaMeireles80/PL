@@ -11,9 +11,9 @@ void strrev (char* s);
 %}
 %option noyywrap
 
-%x Base
+
 %x dicionario
-%x PalPort
+
 %%
 
 <*>[ \t\n\r] ;
@@ -36,7 +36,7 @@ void strrev (char* s);
                                return PALING; 
                              }
 
-<dicionario>[a-zA-Z]* { yylval.spal = strdup(yytext) ; printf("por (%s)\n",yylval.spal );
+<dicionario>[a-zA-Z]* { yylval.spal = strdup(yytext) ; 
                     return PALPORT;
                   }
 
