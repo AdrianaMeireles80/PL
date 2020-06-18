@@ -1,8 +1,13 @@
 __BEGIN__
 
-
-above                          com,dfgh,ola
-dfgh      fghj
-sdfgh    ghj
-ola: 
- -boas                       tudo bem
+dispute:
+ labour -    			conflito (m) trabalhista
+dissolution             dissolucao (f)
+distribution:
+ - costs                custos de distribuicao
+ channels of -          canais (mpl) de distribuicao 
+ physical - management  controle (m) da distribuicao fisica
+distributor             distribuidor (m), atacadista (m)
+diversification:        diversificacao (f)
+ - strategy             estrategia (f) de diversificacao
+ product -              diversificacao (f) de produtos

@@ -3,22 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-int flag = 0;
-int i, j;
-
-void strrev (char* s);
 
 %}
 %option noyywrap
 
 
 %x dicionario
-%x definicao
-
 %%
 
 <*>[ \t\n\r] ;
-
 
 
 \_\_BEGIN\_\_ { 
@@ -26,26 +19,24 @@ void strrev (char* s);
                 return START;
               }
 
-<dicionario>[:\-] { return yytext[0];}
+<dicionario>[:\-,] { return yytext[0];}
 
 
-<dicionario>^[a-zA-Z]+ {  yylval.spal = strdup(yytext) ;
-                          return PALING;
-                       }
+<dicionario>[ ()a-zA-Z]+\n  { 
+								yylval.spal = strdup(yytext) ; 
+                            	return PALPORT;
+                      		}
 
-
-
-<dicionario>^[ ]+[,?a-zA-Z]+ { yylval.spal = strdup(yytext) ; 
-                               return PALING; 
+<dicionario>^[ ]+[ ,a-zA-Z]+ {
+							 	yylval.spal = strdup(yytext) ; 
+                             	return PALING; 
                              }
 
-
-<dicionario>[a-zA-Z]+   { yylval.spal = strdup(yytext) ; 
-                        return PALPORT;
-                      }
-
-
-
+<dicionario>^[a-zA-Z]+ {  
+						 yylval.spal = strdup(yytext) ;
+                       	 return PALING;
+                       }
+ 
 .                  {return ERRO;}
 
 %%
