@@ -9,6 +9,8 @@
 
 
 %x dicionario
+acentos \xc3[\x80-\xbf]
+palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)?
 %%
 
 <*>[ \t\n\r] ;
@@ -19,24 +21,25 @@
                 return START;
               }
 
-<dicionario>[:\-,] { return yytext[0];}
+<dicionario>[:\-,] { char* a = strdup(yytext); printf("porque %s \n",a);return yytext[0];}
 
 
-<dicionario>[ ()a-zA-Z]+\n  { 
-								yylval.spal = strdup(yytext) ; 
+<dicionario>{palavra}[ ]*\n  { 	
+								yylval.spal = strdup(yytext) ; printf("\nboas javardos %s\n", yylval.spal);
                             	return PALPORT;
                       		}
 
-<dicionario>^[ ]+[ ,a-zA-Z]+ {
-							 	yylval.spal = strdup(yytext) ; 
+<dicionario>^[ ]+{palavra} {  
+							 	yylval.spal = strdup(yytext) ; printf("\nboas people %s\n",yylval.spal);
                              	return PALING; 
                              }
 
-<dicionario>^[a-zA-Z]+ {  
-						 yylval.spal = strdup(yytext) ;
+<dicionario>^{palavra} {  
+						 yylval.spal = strdup(yytext) ;printf("\nboas macacos %s\n", yylval.spal);
                        	 return PALING;
                        }
  
 .                  {return ERRO;}
 
 %%
+

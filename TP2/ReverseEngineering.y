@@ -9,7 +9,8 @@ extern char *yytext;
 int yyerror();
 int erroSem(char*);
 char* buf=NULL;
-
+char* ingl;
+char* por;
 %}
 
 %union{
@@ -18,7 +19,7 @@ char* buf=NULL;
 
 %token ERRO  START PALING PALPORT 
 
-%type<spal>  Palavras PALPORT PALING Portugues  
+%type<spal>  Palavras PALPORT PALING Portugues  ListaBase
 
 %%
 
@@ -35,12 +36,12 @@ ListaPalavras : ListaPalavras Palavras
 Palavras : PALING  Portugues  {printf("EN %s\nPT %s\n", $1, $2);}
          | PALING ':' '-' PALING Portugues {
 
-                                            printf("EN %s %s\n +base %s\nPT %s\n",$1,$4,$1,$5);
+                                            printf("1-EN %s %s\n +base %s\nPT %s\n",$1,$4,$1,$5);
                      }
 
-         | PALING ':' PALING '-' Portugues  {
+         | PALING ':'  PALING '-' Portugues    {
 
-                                            printf("EN %s %s\n +base %s\nPT %s\n",$3,$1,$1,$5);
+                                            printf("2-EN %s %s\n +base %s\nPT %s\n",$3,$1,$1,$5);
                                             }
 
          | PALING ':' PALING '-' PALING Portugues {
@@ -54,6 +55,8 @@ Palavras : PALING  Portugues  {printf("EN %s\nPT %s\n", $1, $2);}
                                 }
 
          ;
+
+
 
 
 Portugues : PALPORT                             {
