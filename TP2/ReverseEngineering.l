@@ -6,11 +6,13 @@
 
 %}
 %option noyywrap
+%option yylineno
 
 
 %x dicionario
+
 acentos \xc3[\x80-\xbf]
-palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)?
+palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
 %%
 
 <*>[ \t\n\r] ;
@@ -21,21 +23,22 @@ palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)?
                 return START;
               }
 
-<dicionario>[:\-,] { char* a = strdup(yytext); printf("porque %s \n",a);return yytext[0];}
+<dicionario>[:\-,] { char* a = strdup(yytext); return yytext[0];}
 
 
-<dicionario>{palavra}[ ]*\n  { 	
-								yylval.spal = strdup(yytext) ; printf("\nboas javardos %s\n", yylval.spal);
+<dicionario>{palavra}[ ]*\n  { 	yytext[yyleng-1] = '\0';
+								yylval.spal = strdup(yytext) ; 
                             	return PALPORT;
                       		}
 
 <dicionario>^[ ]+{palavra} {  
-							 	yylval.spal = strdup(yytext) ; printf("\nboas people %s\n",yylval.spal);
+							 	yylval.spal = strdup(yytext) ;
                              	return PALING; 
                              }
 
+
 <dicionario>^{palavra} {  
-						 yylval.spal = strdup(yytext) ;printf("\nboas macacos %s\n", yylval.spal);
+						 yylval.spal = strdup(yytext) ;
                        	 return PALING;
                        }
  
