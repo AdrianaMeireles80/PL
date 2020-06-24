@@ -23,7 +23,7 @@ palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
                 return START;
               }
 
-<dicionario>[:\-,] { char* a = strdup(yytext); return yytext[0];}
+<dicionario>[:\-,;] { return yytext[0];}
 
 
 <dicionario>{palavra}[ ]*\n  { 	yytext[yyleng-1] = '\0';

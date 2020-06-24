@@ -57,7 +57,6 @@ Palavras : PALING PALPORT {asprintf(&$$, "EN %s\nPT %s\n", $1, $2);}
 
 ListaBase : ListaBase Ingles Portugues {i++;asprintf(&$$, "%s \n%s\n%s\n", $1, $2,$3);}
           | Ingles Portugues { i++; asprintf(&$$, "%s\n%s", $1, $2);}
-          |
           ;
 
 
@@ -70,6 +69,7 @@ Ingles : PALING '-'
 
 Portugues : PALPORT 
           | PALPORT ',' PALPORT { asprintf(&$$, "%s\n%s", $1, $3);}
+          | PALPORT ';' PALPORT { asprintf(&$$, "%s\n%s", $1, $3);}
           ;
 
 
