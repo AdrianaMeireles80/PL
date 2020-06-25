@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+char* aux=NULL;
 
 %}
 %option noyywrap
@@ -23,24 +24,42 @@ palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
                 return START;
               }
 
-<dicionario>[:\-,;] { return yytext[0];}
+<dicionario>[\-] {
+					if(aux!=NULL){
+                 		yylval.spal = strdup(aux); 
+				 		return BASEAUX;
+				 	}
+				 }
+
+<dicionario>[,;] { return yytext[0];}
 
 
-<dicionario>{palavra}[ ]*\n  { 	yytext[yyleng-1] = '\0';
-								yylval.spal = strdup(yytext) ; 
-                            	return PALPORT;
-                      		}
+<dicionario>^{palavra}: {
+						yytext[yyleng-1] = '\0';	
+						yylval.spal = strdup(yytext);  
+						aux = strdup(yytext);
+						//printf("base %s",aux);
+				 		return BASE;
+				 	    }
+
+<dicionario>^{palavra} {  
+						 yylval.spal = strdup(yytext) ;
+                       	 return PALING;
+                       }
+
 
 <dicionario>^[ ]+{palavra} {  
 							 	yylval.spal = strdup(yytext) ;
                              	return PALING; 
                              }
 
+<dicionario>{palavra}[ ]*\n  { 	yytext[yyleng-1] = '\0';
+								yylval.spal = strdup(yytext) ; 
+                            	return PALPORT;
+                      		}
 
-<dicionario>^{palavra} {  
-						 yylval.spal = strdup(yytext) ;
-                       	 return PALING;
-                       }
+
+
  
 .                  {return ERRO;}
 

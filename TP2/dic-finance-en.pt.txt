@@ -1,5 +1,5 @@
 __BEGIN__
 diversification:       diversificação (f)
-    strategy -            estratégia (f) de diversificação
-     product              diversificação (f) de produtos
-     groot           davide
+    strategy -           estratégia (f) de diversificação
+    product              diversificação (f) de produtos
+    groot - ola          davide
