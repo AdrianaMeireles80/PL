@@ -16,9 +16,9 @@ int i=0;
     char* spal;
 }
 
-%token ERRO  START PALING PALPORT BASEAUX BASE
+%token ERRO  START PALING PALPORT BASEAUX BASE DEFING
 
-%type<spal>  Palavras PALPORT PALING ListaBase Ingles Portugues BASEAUX BASE PortuguesAux InglesAux InglesAux2 Definicao
+%type<spal>  Palavras PALPORT PALING ListaBase Ingles Portugues BASEAUX BASE PortuguesAux InglesAux  Definicao DEFING
 
 %%
 
@@ -30,7 +30,7 @@ ListaPalavras : ListaPalavras Palavras {printf("%s", $2);}
               ;
 
 
-Palavras : PALING PALPORT {asprintf(&$$, "EN %s\nPT %s\n\n", $1, $2);}
+Palavras : DEFING PALPORT {asprintf(&$$, "EN %s\nPT %s\n\n", $1, $2);}
          
          |  BASE Definicao ListaBase {	
          							char* tokens = strtok ($3,"#");
@@ -77,6 +77,8 @@ Palavras : PALING PALPORT {asprintf(&$$, "EN %s\nPT %s\n\n", $1, $2);}
    									for(j=0; j < i; j++){
    										strcat($$,aux[j]);
    									}
+
+   									i=0;
                              
                                                
                                     }
@@ -93,25 +95,18 @@ ListaBase : ListaBase Ingles Portugues {i++;asprintf(&$$, "%s%s#%s#", $1, $2,$3)
 
 
 
-Ingles : PALING InglesAux       {if($2!=NULL)
-										asprintf(&$$, "%s %s", $1,$2);
-									else 
-										asprintf(&$$, "%s", $1);} 
+Ingles : PALING BASEAUX InglesAux       {if($3!=NULL)
+											asprintf(&$$, "%s %s %s", $1,$2,$3);
+										else 
+											asprintf(&$$, "%s %s", $1,$2);
+									} 
 
        | BASEAUX PALING        {asprintf(&$$, "%s %s", $1, $2);}
        
        ;
 
-InglesAux 	:  BASEAUX InglesAux2 {if($2!=NULL)
-										asprintf(&$$, "%s %s", $1,$2);
-									else 
-										asprintf(&$$, "%s", $1);
-								   }
 
-       	    |              	      {$$=NULL;}
-       		;
-
-InglesAux2 : {$$=NULL;}
+InglesAux : {$$=NULL;}
 		   | PALING {$$ = strdup($1);}
 		   ;
 

@@ -44,7 +44,7 @@ palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
 
 <dicionario>^{palavra} {  
 						 yylval.spal = strdup(yytext) ;
-                       	 return PALING;
+                       	 return DEFING;
                        }
 
 
