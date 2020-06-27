@@ -85,13 +85,7 @@ Palavras : PALAVRA '\t' Portugues  {asprintf(&$$, "EN %s\n%s\n", $1, $3);}
                                                         break;
                                                     } 
                                                     j=j+3;
-                                                    printf("tokens (%s)\n", tokens);
-                                                    tokens = (NULL, "\n");
-                                                    values[j] = strdup(tokens);
-                                                    printf("1sss (%s)\n", values[j]);
-                                                    tokens = (NULL, "\n");
-                                                    values[j] = strdup(tokens);
-                                                    printf("sss (%s)\n", values[j]);
+                                                    
                                                  
                                                   }
                                                     
