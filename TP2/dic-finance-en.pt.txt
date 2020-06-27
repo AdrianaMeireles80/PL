@@ -1,8 +1,6 @@
 __BEGIN__
-boas				aaa
 
-qqqqqq				ssssss ,jesus
-aaaaa:		boas
-  - fff			ssss
-  aaa - 				eeee
-fica 					dia
+aaaaa:		        boas
+  - fff			    ssss
+  aaa - 			eeee
+fica 				dia

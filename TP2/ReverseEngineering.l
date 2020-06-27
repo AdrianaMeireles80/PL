@@ -10,7 +10,6 @@
 
 
 %x dicionario
-%x pal
 
 acentos \xc3[\x80-\xbf]
 palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
