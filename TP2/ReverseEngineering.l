@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
+void yyerror(char* s);
 %}
 %option noyywrap
 %option yylineno
 
 
 %x dicionario
+%x pal
 
 acentos \xc3[\x80-\xbf]
 palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
@@ -34,6 +35,6 @@ palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
 
 <dicionario>^[ ]+ {return 'B';}
 
-.                  {return ERRO;}
+.                       {yyerror("Carater inválido.");}
 
 %%

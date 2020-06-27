@@ -6,8 +6,8 @@ extern int yylex();
 extern int yylineno;
 extern char *yytext;
 
-int yyerror();
-int erroSem(char*);
+void yyerror(char* s);
+
 int i=0;
 int atoi(char *);
 
@@ -17,35 +17,37 @@ int atoi(char *);
     char* spal;
 }
 
-%token ERRO  START  PALAVRA 
+%token   START  PALAVRA
 %type<spal>  Palavras  ListaBase  Portugues PALAVRA Ingles
 
 %%
 
-Dicionario : START  ListaPalavras 
+Dicionario : START  ListaPalavras
+            | START error {printf("bobo");}
+
            ;
 
 ListaPalavras : ListaPalavras  Palavras {printf("%s", $2);}
               | Palavras {printf("%s", $1);}
-             
               ;
 
 
 Palavras : PALAVRA '\t' Portugues  {asprintf(&$$, "EN %s\n%s\n", $1, $3);}
-         | PALAVRA ':' ListaBase  
+         | error  {printf("coco\n ");}
+         | PALAVRA ':' ListaBase
          | PALAVRA ':' '\t' Portugues  ListaBase  { asprintf(&$$, "EN %s\n%s\n", $1, $4);
                                                     char* tokens = strtok ($5,"#");
-                                                 
+
                                                   char* aux[i] ;
                                                   char* values[i*i*3];
                                                   int j=0, size=0, k;
-                                                  
-                                                  while( tokens != NULL && j<i*3) {  
-                                                    
+                                                    /*
+                                                  while( tokens != NULL && j<i*3) {
+
                                     	                values[j] = strdup(tokens);
-                                                        
+
                                                     switch (atoi(values[j]) ) {
-                                                        
+
                                                         case 1:
                                                             tokens = strtok(NULL, "\n");
                                       	                    values[j+1] = strdup(tokens);
@@ -53,29 +55,29 @@ Palavras : PALAVRA '\t' Portugues  {asprintf(&$$, "EN %s\n%s\n", $1, $3);}
                                                             tokens = strtok(NULL, "\n");
                                       	                    values[j+2] = strdup(tokens);
                                                             asprintf(&aux[j], "EN %s %s\n+base %s\nPT %S\n", $1,values[j+1],$1,values[j+2]);
-                                                            
+
                                        	                    size += strlen(aux[j]);
-                                            
+
                                                         break;
 
                                                         case 2:
                                                             tokens = strtok(NULL, "\n");
-                                      	                    values[j+1] = strdup(tokens); 
+                                      	                    values[j+1] = strdup(tokens);
 
                                                             tokens = strtok(NULL, "\n");
                                       	                    values[j+2] = strdup(tokens);
                                                             asprintf(&aux[j], "EN %s %s\n+base %s\n%s\n",values[j+1],$1,$1,values[j+2]);
-                                                             
+
                                                             size += strlen(aux[j]);
                                                         break;
 
                                                         case 3:
                                                             tokens = strtok(NULL, "#");
                                       	                    values[j+1] = strdup(tokens);
-                                                           
+
                                                             tokens = strtok(NULL, "\n");
                                       	                    values[j+2] = strdup(tokens);
-                                                            
+
                                                             tokens = strtok(NULL, "\n");
                                       	                    values[j+3] = strdup(tokens);
                                                             asprintf(&aux, "EN %s %s %s\n+base %s\n%s\n",values[j+1], $1, values[j+2],$1,values[j+3]);
@@ -83,16 +85,16 @@ Palavras : PALAVRA '\t' Portugues  {asprintf(&$$, "EN %s\n%s\n", $1, $3);}
                                                             size += strlen(aux[j]);
                                                             j++;
                                                         break;
-                                                    } 
+                                                    }
                                                     j=j+3;
-                                                    
-                                                 
-                                                  }
-                                                    
+
+
+                                                  }*/
+
                                                   $$ = malloc(sizeof(char)*size);
 
    									            for(k=0; k < i; k++){
-                                                
+
    										        strcat($$,aux[k]);
    									            }
 
@@ -119,6 +121,7 @@ Portugues : PALAVRA { asprintf(&$$, "PT %s\n", $1);}
 
 
 
+
 %%
 int main(){
     yyparse();
@@ -127,10 +130,11 @@ int main(){
 
 int erroSem(char *s){
     printf("Erro Semântico na linha: %d, %s...\n", yylineno, s);
-    
+
 }
 
-int yyerror(){
-    printf("Erro Sintático ou Léxico na linha: %d, com o texto: (%s)\n", yylineno, yytext);
-    return 0;
+void yyerror(char* s){
+   extern int yylineno;
+   extern char* yytext;
+   fprintf(stderr, "Linha %d: %s (%s)\n",yylineno,s,yytext);
 }
