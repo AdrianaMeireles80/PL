@@ -21,14 +21,13 @@ int i=0;
 
 %%
 
-Dicionario : START  ListaPalavras
+Dicionario : START  ListaPalavras {printf("%s",$2);}
            ;
 
-ListaPalavras : ListaPalavras Palavras {printf("%s", $2);}              
-              | Palavras {printf("%s", $1);}                             
+ListaPalavras : ListaPalavras Palavras {asprintf(&$$, "%%s",$1);}
+              | Palavras {asprintf(&$$, "%s",$1);}
               ;
-
-
+	      
 Palavras : DEFING Portugues {asprintf(&$$, "EN %s\n%s\n\n", $1, $2);}
          | error            {asprintf(&$$, "");}         
          |  BASE Definicao ListaBase {
