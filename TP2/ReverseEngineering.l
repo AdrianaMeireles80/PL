@@ -3,38 +3,87 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+
+char* aux=NULL;
 void yyerror(char* s);
+void lower_string(char* s);
+
 %}
 %option noyywrap
 %option yylineno
 
 
 %x dicionario
-%x pal
 
 acentos \xc3[\x80-\xbf]
-palavra ([a-zA-Z]|{acentos})+([ ]([a-zA-Z()]|{acentos})+)*
+palavraPort ([a-z\/\-+()]|{acentos})+([ ]([a-z\/\-+()]|{acentos})+)*
+
+palavraIng [A-Z]+([ \-][A-Z()]+)*
 %%
 
-<*>[\n\r] ;
 
-
-\_\_BEGIN\_\_ {
+\_\_BEGIN\_\_ { 
                 BEGIN dicionario;
                 return START;
               }
 
+[^\n]+ ;
 
-<dicionario>[:\-,;] { return yytext[0];}
+<*>[ \t\n\r] ;
 
-<dicionario>[\t]+ {return '\t';}
 
-<dicionario>{palavra} {  yylval.spal = strdup(yytext) ;
-                       	 return PALAVRA;
+<dicionario>[\-] {
+					if(aux!=NULL){
+                 		yylval.spal = strdup(aux); 
+				 		return BASEAUX;
+				 	}
+				 }
+
+<dicionario>[,;] { return yytext[0];}
+
+
+<dicionario>^{palavraIng}: {
+						yytext[yyleng-1] = '\0';
+						lower_string(yytext);	
+						yylval.spal = strdup(yytext);  
+						aux = strdup(yytext);
+						//printf("base %s",aux);
+				 		return BASE;
+				 	    }
+
+<dicionario>^{palavraIng} {  
+	                     lower_string(yytext);
+						 yylval.spal = strdup(yytext) ;
+                       	 return DEFING;
                        }
 
-<dicionario>^[ ]+ {return 'B';}
+<dicionario>{palavraIng} {  
+						 lower_string(yytext);
+						 yylval.spal = strdup(yytext) ;
+                       	 return PALING;
+                       }
 
-.                       {yyerror("Carater inválido.");}
+
+<dicionario>{palavraPort} { 	
+								yylval.spal = strdup(yytext) ; 
+                            	return PALPORT;
+                      		}
+
+
+
+ 
+<*>.                  {yyerror("ERRO");}
 
 %%
+
+void lower_string(char* s) {
+   int c = 0;
+   
+   while (s[c] != '\0') {
+      if (s[c] >= 'A' && s[c] <= 'Z') {
+         s[c] = s[c] + 32;
+      }
+      c++;
+   }
+}
+

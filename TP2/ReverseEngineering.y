@@ -1,15 +1,13 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 extern int yylex();
-extern int yylineno;
-extern char *yytext;
-
-void yyerror(char* s);
+void yyerror(char*);
+int erroSem(char*);
 
 int i=0;
-int atoi(char *);
 
 %}
 
@@ -17,109 +15,113 @@ int atoi(char *);
     char* spal;
 }
 
-%token   START  PALAVRA
-%type<spal>  Palavras  ListaBase  Portugues PALAVRA Ingles
+%token START PALING PALPORT BASEAUX BASE DEFING
+
+%type<spal>  Palavras PALPORT PALING ListaBase Ingles Portugues BASEAUX BASE PortuguesAux InglesAux  Definicao DEFING
 
 %%
 
 Dicionario : START  ListaPalavras
-            | START error {printf("bobo");}
-
            ;
 
-ListaPalavras : ListaPalavras  Palavras {printf("%s", $2);}
-              | Palavras {printf("%s", $1);}
+ListaPalavras : ListaPalavras Palavras {printf("%s", $2);}              
+              | Palavras {printf("%s", $1);}         
+                              
               ;
 
 
-Palavras : PALAVRA '\t' Portugues  {asprintf(&$$, "EN %s\n%s\n", $1, $3);}
-         | error  {printf("coco\n ");}
-         | PALAVRA ':' ListaBase
-         | PALAVRA ':' '\t' Portugues  ListaBase  { asprintf(&$$, "EN %s\n%s\n", $1, $4);
-                                                    char* tokens = strtok ($5,"#");
+Palavras : DEFING Portugues {asprintf(&$$, "EN %s\n%s\n\n", $1, $2);}
+         | error {asprintf(&$$, "");}
 
-                                                  char* aux[i] ;
-                                                  char* values[i*i*3];
-                                                  int j=0, size=0, k;
-                                                    /*
-                                                  while( tokens != NULL && j<i*3) {
+         
+         |  BASE Definicao ListaBase {	
+         							char* tokens = strtok ($3,"#");
+                                                
+                                    char* values[2];
 
-                                    	                values[j] = strdup(tokens);
+                                    char* aux[i];
+                                    int j=0,size=0; 
+                                                                 
 
-                                                    switch (atoi(values[j]) ) {
+                                    while( tokens != NULL && j<i) {  
 
-                                                        case 1:
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+1] = strdup(tokens);
+                                    	values[0] = strdup(tokens);
 
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+2] = strdup(tokens);
-                                                            asprintf(&aux[j], "EN %s %s\n+base %s\nPT %S\n", $1,values[j+1],$1,values[j+2]);
+    
+                                      	tokens = strtok(NULL, "#");
 
-                                       	                    size += strlen(aux[j]);
+                                      	values[1] = strdup(tokens);
 
-                                                        break;
+                                      	//printf("values 0 %s,values 1 %s\n",values[0],values[1]);
 
-                                                        case 2:
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+1] = strdup(tokens);
+                                      	asprintf(&aux[j], "EN %s\n+base %s\n%s\n\n",values[0], $1,values[1]);
+                                     
+                                       	size += strlen(aux[j]);
 
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+2] = strdup(tokens);
-                                                            asprintf(&aux[j], "EN %s %s\n+base %s\n%s\n",values[j+1],$1,$1,values[j+2]);
+                                       	j++;
 
-                                                            size += strlen(aux[j]);
-                                                        break;
+                                       	tokens = strtok(NULL, "#");
 
-                                                        case 3:
-                                                            tokens = strtok(NULL, "#");
-                                      	                    values[j+1] = strdup(tokens);
+   									}
 
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+2] = strdup(tokens);
+                                    if($2!=NULL){
 
-                                                            tokens = strtok(NULL, "\n");
-                                      	                    values[j+3] = strdup(tokens);
-                                                            asprintf(&aux, "EN %s %s %s\n+base %s\n%s\n",values[j+1], $1, values[j+2],$1,values[j+3]);
+                                        tokens = NULL;
+                                    	asprintf(&tokens, "EN %s\nPT %s\n\n",$1,$2); 
 
-                                                            size += strlen(aux[j]);
-                                                            j++;
-                                                        break;
-                                                    }
-                                                    j=j+3;
+                                    	$$ = malloc(sizeof(char)*(size + strlen(tokens)));
 
+                                    	strcat($$,tokens);
+                                    } 
 
-                                                  }*/
+   									else $$ = malloc(sizeof(char)*size);
 
-                                                  $$ = malloc(sizeof(char)*size);
+   									for(j=0; j < i; j++){
+   										strcat($$,aux[j]);
+   									}
 
-   									            for(k=0; k < i; k++){
+   									i=0;
+                             
+                                               
+                                    }
+           ;
 
-   										        strcat($$,aux[k]);
-   									            }
-
-   									            i=0;
-
-                                                }
+Definicao: PALPORT {$$ = strdup($1);}
+         | {$$=NULL;}
          ;
 
-ListaBase : ListaBase Ingles '\t' Portugues  {i++;asprintf(&$$, "%s\n%s\n%s", $1, $2,$4); }
-          | Ingles '\t' Portugues { i++; asprintf(&$$, "%s\n%s", $1, $3); }
+
+ListaBase : ListaBase Ingles Portugues {i++;asprintf(&$$, "%s%s#%s#", $1, $2,$3);}
+          | Ingles Portugues           {i++;asprintf(&$$, "%s#%s#", $1, $2);}
           ;
 
 
+Ingles : PALING BASEAUX InglesAux       {if($3!=NULL)
+											asprintf(&$$, "%s %s %s", $1,$2,$3);
+										else 
+											asprintf(&$$, "%s %s", $1,$2);
+									    } 
 
-Ingles : 'B' PALAVRA '-' {  asprintf(&$$, "2#%s", $2);}
-       | 'B' '-' PALAVRA {asprintf(&$$, "1#%s", $3);}
-       | 'B' PALAVRA '-'  PALAVRA {  asprintf(&$$, "3#%s#%s", $2,$4);}
+       | BASEAUX PALING        {asprintf(&$$, "%s %s", $1, $2);}
+       
        ;
 
-Portugues : PALAVRA { asprintf(&$$, "PT %s\n", $1);}
-          | PALAVRA ',' PALAVRA { asprintf(&$$, "PT %s\nPT %s", $1, $3);}
-          | PALAVRA ';' PALAVRA { asprintf(&$$, "PT %s\nPT %s", $1, $3); }
+
+InglesAux : {$$=NULL;}
+		   | PALING {$$ = strdup($1);}
+		   ;
+
+Portugues : PALPORT  PortuguesAux { if($2!=NULL)
+										asprintf(&$$, "PT %s\n%s", $1,$2);
+									else 
+										asprintf(&$$, "PT %s", $1);
+								  } 
           ;
 
-
+PortuguesAux :  {$$=NULL;} 
+          	 |  ',' PALPORT {asprintf(&$$, "PT %s",$2);}
+             |  ';' PALPORT {asprintf(&$$, "PT %s", $2);}
+             ;
 
 
 %%
@@ -128,13 +130,11 @@ int main(){
     return 0;
 }
 
-int erroSem(char *s){
-    printf("Erro Semântico na linha: %d, %s...\n", yylineno, s);
-
-}
 
 void yyerror(char* s){
    extern int yylineno;
    extern char* yytext;
    fprintf(stderr, "Linha %d: %s (%s)\n",yylineno,s,yytext);
 }
+
+
