@@ -7,11 +7,10 @@
 char* aux=NULL;
 void yyerror(char* s);
 void lower_string(char* s);
-
 %}
+
 %option noyywrap
 %option yylineno
-
 
 %x dicionario
 
@@ -21,57 +20,48 @@ palavraPort ([a-z\/\-+()]|{acentos})+([ ]([a-z\/\-+()]|{acentos})+)*
 palavraIng [A-Z]+([ \-][A-Z()]+)*
 %%
 
-
 \_\_BEGIN\_\_ { 
                 BEGIN dicionario;
                 return START;
               }
-
 [^\n]+ ;
 
 <*>[ \t\n\r] ;
 
-
 <dicionario>[\-] {
-					if(aux!=NULL){
-                 		yylval.spal = strdup(aux); 
-				 		return BASEAUX;
-				 	}
-				 }
+		  if(aux!=NULL){
+		  	yylval.spal = strdup(aux);
+			return BASEAUX;
+		  }
+		 }
 
 <dicionario>[,;] { return yytext[0];}
 
-
 <dicionario>^{palavraIng}: {
-						yytext[yyleng-1] = '\0';
-						lower_string(yytext);	
-						yylval.spal = strdup(yytext);  
-						aux = strdup(yytext);
-						//printf("base %s",aux);
-				 		return BASE;
-				 	    }
+				yytext[yyleng-1] = '\0';
+				lower_string(yytext);	
+				yylval.spal = strdup(yytext);  
+				aux = strdup(yytext);
+				return BASE;
+			   }
 
 <dicionario>^{palavraIng} {  
-	                     lower_string(yytext);
-						 yylval.spal = strdup(yytext) ;
-                       	 return DEFING;
-                       }
+				lower_string(yytext);
+				yylval.spal = strdup(yytext) ;
+                       	 	return DEFING;
+                           }
 
-<dicionario>{palavraIng} {  
-						 lower_string(yytext);
-						 yylval.spal = strdup(yytext) ;
-                       	 return PALING;
-                       }
+<dicionario>{palavraIng} { 
+				lower_string(yytext);
+				yylval.spal = strdup(yytext) ;
+				return PALING;
+                         }
 
-
-<dicionario>{palavraPort} { 	
-								yylval.spal = strdup(yytext) ; 
+<dicionario>{palavraPort} { 
+				yylval.spal = strdup(yytext) ; 
                             	return PALPORT;
-                      		}
-
-
-
- 
+                      	  }
+			  
 <*>.                  {yyerror("ERRO");}
 
 %%
@@ -86,4 +76,3 @@ void lower_string(char* s) {
       c++;
    }
 }
-
