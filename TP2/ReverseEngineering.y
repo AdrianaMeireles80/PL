@@ -17,7 +17,7 @@ int i=0;
 
 %token START PALING PALPORT BASEAUX BASE DEFING
 
-%type<spal>  Palavras PALPORT PALING ListaBase Ingles Portugues BASEAUX BASE PortuguesAux InglesAux  Definicao DEFING ListaPalavras
+%type<spal>  Palavras PALPORT PALING ListaBase Ingles Portugues BASEAUX BASE PortuguesAux InglesAux  Definicao DEFING
 
 %%
 
