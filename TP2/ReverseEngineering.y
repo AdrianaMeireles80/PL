@@ -24,11 +24,11 @@ int i=0;
 Dicionario : START  ListaPalavras
            ;
 
-ListaPalavras : ListaPalavras Palavras {printf("%s",$2);}
-              | Palavras {printf("%s",$1);}
+ListaPalavras : ListaPalavras Palavras 
+              | Palavras 
               ;
 
-Palavras : DEFING Portugues {asprintf(&$$, "EN %s\n%s\n\n", $1, $2);}
+Palavras : DEFING Portugues {printf("EN %s\n%s\n\n", $1, $2);}
          | error            {asprintf(&$$, "");}
          |  BASE Definicao ListaBase {	
 	 				char* tokens = strtok ($3,"#");
@@ -57,7 +57,8 @@ Palavras : DEFING Portugues {asprintf(&$$, "EN %s\n%s\n\n", $1, $2);}
 					else $$ = malloc(sizeof(char)*size);
 					
 					for(j=0; j < i; j++){
-						strcat($$,aux[j]);
+						printf("%s\n", aux[j]);
+						
 					}
 					
 					i=0;
